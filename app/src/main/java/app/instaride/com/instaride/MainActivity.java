@@ -13,6 +13,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -41,8 +43,14 @@ public class MainActivity extends AppCompatActivity
     private static final int MY_PERMISSION_ACCESS_FINE_LOCATION = 12;
     LatLng latLng;
     GoogleMap mGoogleMap;
+    private AutoCompleteTextView searchMake, searchModel, searchYear;
     SupportMapFragment mFragment;
     Marker currLocationMarker;
+    String[] MAKE={"TESLA","HYUNDAI","HONDA","MERCEDES","AUDI","JAGUAR"};
+
+    String[] MODEL={"MODEL1","MODEL2","MODEL3","MODEL4","MODEL5","MODEL6"};
+
+    String[] YEAR={"2011","2012","2013","2014","2015","2016"};
 
 
     @Override
@@ -65,6 +73,22 @@ public class MainActivity extends AppCompatActivity
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+
+        searchMake = (AutoCompleteTextView) findViewById(R.id.searchMake);
+        ArrayAdapter<String> adapterMake = new ArrayAdapter<String>
+                (this,android.R.layout.simple_list_item_1,MAKE);
+        searchMake.setAdapter(adapterMake);
+
+        searchModel = (AutoCompleteTextView) findViewById(R.id.searchMake);
+        ArrayAdapter<String> adapterModel = new ArrayAdapter<String>
+                (this,android.R.layout.simple_list_item_1,MAKE);
+        searchMake.setAdapter(adapterModel);
+
+        searchYear = (AutoCompleteTextView) findViewById(R.id.searchMake);
+        ArrayAdapter<String> adapterYear = new ArrayAdapter<String>
+                (this,android.R.layout.simple_list_item_1,MAKE);
+        searchMake.setAdapter(adapterYear);
 
     }
 

@@ -21,9 +21,52 @@
         <!--class="app.instaride.com.instaride.MapsFragment"-->
         <!--tools:layout="@layout/activity_maps">-->
     <!--</fragment>-->
+    <LinearLayout
+        android:id="@+id/searchWrapper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+    <AutoCompleteTextView
+        android:id="@+id/searchMake"
+        android:layout_width="match_parent"
+        android:layout_weight="0.4"
+        android:hint="Make"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:ems="10"/>
+        <AutoCompleteTextView
+            android:id="@+id/searchYear"
+            android:hint="Model"
+            android:layout_weight="0.6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:ems="10"/>
+    </LinearLayout>
+
+        <AutoCompleteTextView
+            android:id="@+id/searchModel"
+            android:hint="Year"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:ems="10"/>
+    </LinearLayout>
     <fragment
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/map"
+        android:layout_below="@+id/searchWrapper"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
