@@ -1,13 +1,12 @@
 package app.instaride.com.instaride;
 
 import android.util.Log;
+
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
-import javax.net.ssl.HttpsURLConnection;
 
 
 
@@ -31,7 +30,7 @@ public class NetworkHelper extends Thread {
         try {
             this.requestURL = new URL(urlString);
         } catch (Exception e) {
-            Log.wtf(LOG_TAG, e);
+            Log.d(LOG_TAG, ""+e);
         }
         this.requestURLType = urlType;
         this.requestType = reqType;
@@ -46,7 +45,7 @@ public class NetworkHelper extends Thread {
         BufferedReader in;
 
         if(this.requestURLType == -1 || this.requestURL == null || this.requestType == -1) {
-            Log.wtf(LOG_TAG, "NetworkHelper called before full initialization!!");
+            Log.d(LOG_TAG, "NetworkHelper called before full initialization!!");
             return;
         }
 
@@ -82,7 +81,7 @@ public class NetworkHelper extends Thread {
             }
             in.close();
         } catch (Exception e) {
-            Log.wtf(LOG_TAG, e);
+            Log.d(LOG_TAG, ""+e);
         } finally {
             urlConnection.disconnect();
         }

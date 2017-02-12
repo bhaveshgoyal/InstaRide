@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 
+
 public class SplashScreen extends AppCompatActivity {
 
     private final int SPLASH_DISPLAY_LENGTH = 1000;
@@ -22,12 +23,8 @@ public class SplashScreen extends AppCompatActivity {
                 prefManager = new PrefManager(SplashScreen.this);
                 if (!prefManager.isFirstTimeLaunch()) {
                     prefManager.setFirstTimeLaunch(false);
-                    Intent mainIntent = new Intent(SplashScreen.this, WelcomeActivity.class);
-                    SplashScreen.this.startActivity(mainIntent);
+                    startActivity(new Intent(SplashScreen.this, MainActivity.class));
                     SplashScreen.this.finish();
-//
-//                    startActivity(new Intent(SplashScreen.this, MainActivity.class));
-//                    SplashScreen.this.finish();
                 }
                 else {
                     Intent mainIntent = new Intent(SplashScreen.this, WelcomeActivity.class);

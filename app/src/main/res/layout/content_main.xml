@@ -41,7 +41,7 @@
         android:layout_centerHorizontal="true"
         android:ems="10"/>
         <AutoCompleteTextView
-            android:id="@+id/searchYear"
+            android:id="@+id/searchModel"
             android:hint="Model"
             android:layout_weight="0.6"
             android:layout_width="match_parent"
@@ -52,15 +52,32 @@
             android:ems="10"/>
     </LinearLayout>
 
-        <AutoCompleteTextView
-            android:id="@+id/searchModel"
-            android:hint="Year"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:ems="10"/>
+            android:orientation="horizontal">
+
+            <AutoCompleteTextView
+                android:id="@+id/searchYear"
+                android:hint="Year"
+                android:layout_width="192dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:ems="10"
+                android:layout_weight="0.08" />
+            <Button
+                android:id="@+id/filterBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="FILTER"
+                android:textColor="@color/white"
+                android:background="@color/bg_screen3"
+                android:layout_weight="0.45"/>
+        </LinearLayout>
+
+
     </LinearLayout>
     <fragment
         xmlns:tools="http://schemas.android.com/tools"

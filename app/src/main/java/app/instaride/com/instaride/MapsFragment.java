@@ -28,6 +28,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
+
 public class MapsFragment extends Fragment implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
     LocationRequest mLocationRequest;
@@ -39,6 +41,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
     GoogleMap mGoogleMap;
     SupportMapFragment mFragment;
     Marker currLocationMarker;
+
+    ArrayList<LatLng> markersArray = new ArrayList<LatLng>();
     FragmentActivity myContext;
 
 
@@ -88,6 +92,12 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         buildGoogleApiClient();
 
         mGoogleApiClient.connect();
+
+        for(int i = 0 ; i < markersArray.size() ; i++ ) {
+
+            createMarker(markersArray.get(i).latitude, markersArray.get(i).longitude);
+        }
+
     }
 
     protected synchronized void buildGoogleApiClient() {
@@ -130,6 +140,17 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
 
 
 
+    }
+
+
+
+
+    protected Marker createMarker(double latitude, double longitude) {
+
+        return mGoogleMap.addMarker(new MarkerOptions()
+                .position(new LatLng(latitude, longitude))
+                .anchor(0.5f, 0.5f)
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
     }
     @Override
     public void onConnectionSuspended(int i) {

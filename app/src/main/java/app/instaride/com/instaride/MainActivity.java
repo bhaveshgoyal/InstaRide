@@ -1,5 +1,6 @@
 package app.instaride.com.instaride;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -13,8 +14,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -31,6 +34,9 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.ArrayList;
+
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
@@ -51,12 +57,16 @@ public class MainActivity extends AppCompatActivity
     String[] MODEL={"MODEL1","MODEL2","MODEL3","MODEL4","MODEL5","MODEL6"};
 
     String[] YEAR={"2011","2012","2013","2014","2015","2016"};
+    Button filter;
+    ArrayList<Marker> markers = new ArrayList<>();
+    ArrayList<LatLng> markersArray = new ArrayList<LatLng>();
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -90,6 +100,20 @@ public class MainActivity extends AppCompatActivity
                 (this,android.R.layout.simple_list_item_1,MAKE);
         searchMake.setAdapter(adapterYear);
 
+        filter = (Button)findViewById(R.id.filterBtn);
+        filter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                markersArray.add(0, new LatLng(17.440081,  78.348915));
+
+                markersArray.add(1, new LatLng(17.387140,  78.491684));
+
+                markersArray.add(2, new LatLng(17.540081,  78.548915));
+
+                markersArray.add(3, new LatLng(17.640081,  78.148915));
+                updateMarkers();
+            }
+        });
     }
 
     @Override
@@ -134,10 +158,10 @@ public class MainActivity extends AppCompatActivity
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
 
-        } else if (id == R.id.nav_slideshow) {
-
         } else if (id == R.id.nav_manage) {
-
+            Intent mainIntent = new Intent(MainActivity.this, RegistrationActivity.class);
+            startActivity(mainIntent);
+            finish();
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
@@ -164,6 +188,68 @@ public class MainActivity extends AppCompatActivity
         buildGoogleApiClient();
 
         mGoogleApiClient.connect();
+        mGoogleMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+
+            // Use default InfoWindow frame
+            @Override
+            public View getInfoWindow(Marker arg0) {
+                return null;
+            }
+
+            // Defines the contents of the InfoWindow
+            @Override
+            public View getInfoContents(Marker arg0) {
+
+                //TODO: Network Call toget Marker info
+
+                View v = getLayoutInflater().inflate(R.layout.custom_info_window, null);
+
+                // Getting the position from the marker
+//                LatLng latLng = arg0.getPosition();
+//
+//                // Getting reference to the TextView to set latitude
+
+
+
+//                // Getting reference to the TextView to set longitude
+//                TextView tvOwner = (TextView) v.findViewById(R.id.tv_lng);
+//
+//                // Setting the latitude
+//                tvLat.setText("Price:" + latL;
+//
+//                // Setting the longitude
+//                tvLng.setText("Owner: "+ "Bhavesh");
+
+                // Returning the view containing InfoWindow contents
+                return v;
+
+            }
+        });
+        mGoogleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+
+                Toast.makeText(MainActivity.this,"Booking Confirmed",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+    }
+    protected void updateMarkers(){
+        for(int i = 0 ; i < markersArray.size() ; i++ ) {
+
+            markers.add(i,createMarker(markersArray.get(i).latitude, markersArray.get(i).longitude));
+            markers.get(i).showInfoWindow();
+        }
+
+    }
+
+    protected Marker createMarker(double latitude, double longitude) {
+
+        return mGoogleMap.addMarker(new MarkerOptions()
+                .position(new LatLng(latitude, longitude))
+                .anchor(0.5f, 0.5f)
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN)));
     }
 
     protected synchronized void buildGoogleApiClient() {
@@ -221,7 +307,7 @@ public class MainActivity extends AppCompatActivity
     public void onLocationChanged(Location location) {
 
         //place marker at current position
-        mGoogleMap.clear();
+//        mGoogleMap.clear();
         if (currLocationMarker != null) {
             currLocationMarker.remove();
         }
@@ -241,8 +327,10 @@ public class MainActivity extends AppCompatActivity
         mGoogleMap.animateCamera(CameraUpdateFactory
                 .newCameraPosition(cameraPosition));
 
+        updateMarkers();
+
         //If you only need one location, unregister the listener
-//        LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
+        LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
 
     }
 }
